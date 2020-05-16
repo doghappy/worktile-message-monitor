@@ -1,6 +1,6 @@
 # Worktile message monitor
 
-使用 SocketIOClient 作为 Socket.IO 客户端，监控 Worktile 的消息，在使用之前，需要配置登录信息。
+使用 [SocketIOClient](https://github.com/doghappy/socket.io-client-csharp) 作为 Socket.IO 客户端，监控 Worktile 的消息，在使用之前，需要配置登录信息。
 
 config.json
 
