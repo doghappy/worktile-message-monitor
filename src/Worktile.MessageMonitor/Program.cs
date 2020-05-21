@@ -89,7 +89,7 @@ namespace Worktile.MessageMonitor
 
         static async Task LoginAsync()
         {
-            var response = await PostAsync("api/pontus/team/signin", new
+            await PostAsync("api/pontus/team/signin", new
             {
                 login_name = Configuration.Value<string>("user"),
                 password = Configuration.Value<string>("password"),
