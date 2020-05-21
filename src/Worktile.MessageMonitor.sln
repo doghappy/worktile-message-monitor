@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worktile.MessageMonitor", "Worktile.MessageMonitor.csproj", "{D35973C7-6EE8-4D8A-BA49-CB44CC5ADE19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worktile.MessageMonitor", "Worktile.MessageMonitor\Worktile.MessageMonitor.csproj", "{4FB677F6-8533-4048-A866-312F2D215E7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D35973C7-6EE8-4D8A-BA49-CB44CC5ADE19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D35973C7-6EE8-4D8A-BA49-CB44CC5ADE19}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D35973C7-6EE8-4D8A-BA49-CB44CC5ADE19}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D35973C7-6EE8-4D8A-BA49-CB44CC5ADE19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB677F6-8533-4048-A866-312F2D215E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB677F6-8533-4048-A866-312F2D215E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB677F6-8533-4048-A866-312F2D215E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB677F6-8533-4048-A866-312F2D215E7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
