@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Worktile.MessageMonitor": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
