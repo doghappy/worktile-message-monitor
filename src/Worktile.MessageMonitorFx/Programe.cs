@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Worktile.MessageMonitor
+namespace Worktile.MessageMonitorFx
 {
     class Program
     {
@@ -31,13 +31,14 @@ namespace Worktile.MessageMonitor
                     { "token", connectionInfo.Token },
                     { "uid", connectionInfo.Uid },
                     { "client", "web" }
-                }
+                },
             });
 
-            var socket = client.Socket as ClientWebSocket;
-            socket.Config = options =>
+            if (client.Socket is WebSocketSharpClient)
             {
-                options.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
+                var socket = client.Socket as WebSocketSharpClient;
+                socket.EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls;
+                socket.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
                 {
                     if (sslPolicyErrors == System.Net.Security.SslPolicyErrors.None)
                     {
@@ -46,7 +47,22 @@ namespace Worktile.MessageMonitor
                     Console.WriteLine(sslPolicyErrors);
                     return false;
                 };
-            };
+            }
+            else
+            {
+                var socket = client.Socket as ClientWebSocket;
+                // .NET Framework：
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
+                {
+                    if (sslPolicyErrors == System.Net.Security.SslPolicyErrors.None)
+                    {
+                        return true;
+                    }
+                    Console.WriteLine(sslPolicyErrors);
+                    return false;
+                };
+            }
+
 
             client.OnConnected += Client_OnConnected;
             client.OnPing += Client_OnPing;
