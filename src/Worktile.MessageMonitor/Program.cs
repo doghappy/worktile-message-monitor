@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SocketIOClient;
-using SocketIOClient.WebSocketClient;
+using SocketIOClient.Transport;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +20,13 @@ namespace Worktile.MessageMonitor
 
         static async Task Main(string[] args)
         {
+            GetOSInfo();
             Initialize();
             await LoginAsync();
             var connectionInfo = await GetConnectionInfoAsync();
             var client = new SocketIO(connectionInfo.Uri, new SocketIOOptions
             {
+                EIO = 3,
                 Query = new Dictionary<string, string>
                 {
                     { "token", connectionInfo.Token },
@@ -34,29 +35,38 @@ namespace Worktile.MessageMonitor
                 }
             });
 
-            var socket = client.Socket as ClientWebSocket;
-            socket.Config = options =>
+            client.ClientWebSocketProvider = () =>
             {
-                options.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
+                var clientWebSocket = new DefaultClientWebSocket
                 {
-                    if (sslPolicyErrors == System.Net.Security.SslPolicyErrors.None)
+                    ConfigOptions = o =>
                     {
-                        return true;
+                        var options = o as System.Net.WebSockets.ClientWebSocketOptions;
+                        options.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
+                        {
+                            Console.WriteLine("SslPolicyErrors: " + sslPolicyErrors);
+                            return true;
+                        };
                     }
-                    Console.WriteLine(sslPolicyErrors);
-                    return false;
                 };
+                return clientWebSocket;
             };
 
             client.OnConnected += Client_OnConnected;
             client.OnPing += Client_OnPing;
             client.OnPong += Client_OnPong;
             client.OnDisconnected += Client_OnDisconnected;
+            client.OnReconnectAttempt += Client_OnReconnectAttempt;
 
             Console.WriteLine("Connecting...");
             await client.ConnectAsync();
 
             Console.ReadLine();
+        }
+
+        private static void Client_OnReconnectAttempt(object sender, int e)
+        {
+            Console.WriteLine("Attemp: " + e);
         }
 
         private static void Client_OnDisconnected(object sender, string e)
@@ -140,6 +150,92 @@ namespace Worktile.MessageMonitor
             var resMsg = await HttpClient.PostAsync(uri, stringContent);
             string resJson = await resMsg.Content.ReadAsStringAsync();
             return JObject.Parse(resJson);
+        }
+
+
+        public static string GetOSInfo()
+        {
+            //Get Operating system information.
+            OperatingSystem os = Environment.OSVersion;
+            //Get version information about the os.
+            Version vs = os.Version;
+
+            //Variable to hold our return value
+            string operatingSystem = "";
+
+            if (os.Platform == PlatformID.Win32Windows)
+            {
+                //This is a pre-NT version of Windows
+                switch (vs.Minor)
+                {
+                    case 0:
+                        operatingSystem = "95";
+                        break;
+                    case 10:
+                        if (vs.Revision.ToString() == "2222A")
+                            operatingSystem = "98SE";
+                        else
+                            operatingSystem = "98";
+                        break;
+                    case 90:
+                        operatingSystem = "Me";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (os.Platform == PlatformID.Win32NT)
+            {
+                switch (vs.Major)
+                {
+                    case 3:
+                        operatingSystem = "NT 3.51";
+                        break;
+                    case 4:
+                        operatingSystem = "NT 4.0";
+                        break;
+                    case 5:
+                        if (vs.Minor == 0)
+                            operatingSystem = "2000";
+                        else
+                            operatingSystem = "XP";
+                        break;
+                    case 6:
+                        if (vs.Minor == 0)
+                            operatingSystem = "Vista";
+                        else if (vs.Minor == 1)
+                            operatingSystem = "7";
+                        else if (vs.Minor == 2)
+                            operatingSystem = "8";
+                        else
+                            operatingSystem = "8.1";
+                        break;
+                    case 10:
+                        operatingSystem = "10";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //Make sure we actually got something in our OS check
+            //We don't want to just return " Service Pack 2" or " 32-bit"
+            //That information is useless without the OS version.
+            if (operatingSystem != "")
+            {
+                //Got something.  Let's prepend "Windows" and get more info.
+                operatingSystem = "Windows " + operatingSystem;
+                //See if there's a service pack installed.
+                if (os.ServicePack != "")
+                {
+                    //Append it to the OS name.  i.e. "Windows XP Service Pack 3"
+                    operatingSystem += " " + os.ServicePack;
+                }
+                //Append the OS architecture.  i.e. "Windows XP Service Pack 3 32-bit"
+                //operatingSystem += " " + getOSArchitecture().ToString() + "-bit";
+            }
+            //Return the information we've gathered.
+            Console.WriteLine(operatingSystem);
+            return operatingSystem;
         }
     }
 }

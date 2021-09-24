@@ -1,16 +1,16 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SocketIOClient;
+using SocketIOClient.Windows7;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Worktile.MessageMonitorFx
+namespace Worktile.MessageMonitorWin7
 {
     class Program
     {
@@ -25,25 +25,15 @@ namespace Worktile.MessageMonitorFx
             var connectionInfo = await GetConnectionInfoAsync();
             var client = new SocketIO(connectionInfo.Uri, new SocketIOOptions
             {
-                EIO = 3,
                 Query = new Dictionary<string, string>
                 {
                     { "token", connectionInfo.Token },
                     { "uid", connectionInfo.Uid },
                     { "client", "web" }
                 },
+                EIO = 3
             });
-
-            // .NET Framework：
-            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
-            {
-                if (sslPolicyErrors == System.Net.Security.SslPolicyErrors.None)
-                {
-                    return true;
-                }
-                Console.WriteLine(sslPolicyErrors);
-                return false;
-            };
+            client.ClientWebSocketProvider = () => new ClientWebSocketManaged();
 
             client.OnConnected += Client_OnConnected;
             client.OnPing += Client_OnPing;

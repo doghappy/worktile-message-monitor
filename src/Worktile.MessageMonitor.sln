@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worktile.MessageMonitor", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worktile.MessageMonitorFx", "Worktile.MessageMonitorFx\Worktile.MessageMonitorFx.csproj", "{FE82CA38-C05B-4414-A2FE-50E687FB35D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketIOClient", "..\..\socket.io-client-csharp\src\SocketIOClient\SocketIOClient.csproj", "{955865DD-1F3E-4E48-A063-F40B813C5C4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worktile.MessageMonitorWin7", "Worktile.MessageMonitorWin7\Worktile.MessageMonitorWin7.csproj", "{5CC501D2-A51D-44B3-A158-A5E690A05739}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{FE82CA38-C05B-4414-A2FE-50E687FB35D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE82CA38-C05B-4414-A2FE-50E687FB35D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE82CA38-C05B-4414-A2FE-50E687FB35D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{955865DD-1F3E-4E48-A063-F40B813C5C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{955865DD-1F3E-4E48-A063-F40B813C5C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{955865DD-1F3E-4E48-A063-F40B813C5C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{955865DD-1F3E-4E48-A063-F40B813C5C4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC501D2-A51D-44B3-A158-A5E690A05739}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC501D2-A51D-44B3-A158-A5E690A05739}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC501D2-A51D-44B3-A158-A5E690A05739}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC501D2-A51D-44B3-A158-A5E690A05739}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
